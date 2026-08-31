@@ -1,0 +1,10 @@
+{
+  "name": "influencer-chat-workspace",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix influencer-chat -- --hostname 0.0.0.0 --port 3000",
+    "build": "npm run build --prefix influencer-chat",
+    "start": "npm run start --prefix influencer-chat",
+    "lint": "npm run lint --prefix influencer-chat"
+  }
+}
