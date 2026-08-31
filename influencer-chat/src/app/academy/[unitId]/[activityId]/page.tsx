@@ -27,7 +27,7 @@ export default function AcademyActivityPage() {
   const done = progress.completedActivityIds.includes(activity.id);
 
   return (
-    <div className="rounded-2xl bg-white p-6 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8">
+    <div className="rounded-2xl bg-white p-4 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8">
       <Link href={`/academy/${unit.id}`} className="text-xs text-[#008069] hover:underline">
         ← {unit.title}
       </Link>

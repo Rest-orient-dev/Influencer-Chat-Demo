@@ -26,14 +26,14 @@ export default function AcademyUnitPage() {
   const complete = isUnitComplete(unit, progress.completedActivityIds);
 
   return (
-    <div className="rounded-2xl bg-white p-6 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8">
+    <div className="rounded-2xl bg-white p-4 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8">
       <Link href="/academy" className="text-xs text-[#008069] hover:underline">
         ← Ruta de la academia
       </Link>
       <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[#008069]">
         Unidad {unit.order} · {unit.minutes} min
       </p>
-      <h1 className="mt-1 text-3xl font-light text-[#111b21]">{unit.title}</h1>
+      <h1 className="mt-1 text-2xl font-light text-[#111b21] md:text-3xl">{unit.title}</h1>
       <p className="mt-2 max-w-2xl text-[15px] leading-6 text-[#3b4a54]">{unit.subtitle}</p>
       {complete && (
         <p className="mt-3 text-sm font-medium text-[#008069]">Unidad completada.</p>

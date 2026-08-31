@@ -36,8 +36,8 @@ export default function AdminReportsPage() {
         aciertos y errores.
       </p>
 
-      <div className="mt-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-        <table className="w-full text-left text-sm">
+      <div className="mt-6 overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+        <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="bg-slate-50 text-slate-600">
             <tr>
               <th className="px-4 py-3 font-medium">Estudiante</th>
@@ -82,8 +82,8 @@ export default function AdminReportsPage() {
       {selected && (
         <div className="mt-6 grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
           <section className="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-            <header className="border-b border-slate-100 px-5 py-3">
-              <h2 className="text-lg font-medium">
+            <header className="border-b border-slate-100 px-4 py-3 md:px-5">
+              <h2 className="text-base font-medium md:text-lg">
                 Conversación · {selected.userName} × {selected.influencerName}
               </h2>
               <p className="text-xs text-slate-500">
@@ -96,7 +96,7 @@ export default function AdminReportsPage() {
               influencerName={selected.influencerName ?? "Influencer"}
             />
           </section>
-          <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+          <section className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200 md:p-5">
             <EvaluationReportCard evaluation={selected} />
           </section>
         </div>

@@ -54,7 +54,7 @@ export default function AdminInfluencersPage() {
         estudiantes usará estos perfiles.
       </p>
 
-      <div className="mt-6 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+      <div className="mt-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200 md:p-5">
         <label className="text-sm font-medium text-slate-800">Importar array JSON</label>
         <textarea
           value={importText}
@@ -70,8 +70,8 @@ export default function AdminInfluencersPage() {
         {message && <p className="mt-2 text-sm text-slate-700">{message}</p>}
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-        <table className="w-full text-left text-sm">
+      <div className="mt-6 overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+        <table className="w-full min-w-[560px] text-left text-sm">
           <thead className="bg-slate-50 text-slate-600">
             <tr>
               <th className="px-4 py-3 font-medium">Nombre</th>

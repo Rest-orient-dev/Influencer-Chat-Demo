@@ -29,6 +29,7 @@ export default function ChatPage() {
   const [evalOpen, setEvalOpen] = useState(false);
   const [evalResult, setEvalResult] = useState<EvaluationResult | null>(null);
   const [slashIndex, setSlashIndex] = useState(0);
+  const [mobileList, setMobileList] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const openingRef = useRef(new Set<string>());
 
@@ -114,6 +115,23 @@ export default function ChatPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [shownMessages.length, activeSessionId, typing]);
 
+  useEffect(() => {
+    const shell = document.getElementById("wa-shell");
+    const vv = window.visualViewport;
+    if (!shell || !vv) return;
+    const apply = () => {
+      shell.style.height = `${vv.height}px`;
+      shell.style.transform = vv.offsetTop ? `translateY(${vv.offsetTop}px)` : "";
+    };
+    apply();
+    vv.addEventListener("resize", apply);
+    vv.addEventListener("scroll", apply);
+    return () => {
+      vv.removeEventListener("resize", apply);
+      vv.removeEventListener("scroll", apply);
+    };
+  }, []);
+
   const lastMessageOf = (session: ChatSession): ChatMessage | undefined => {
     const list = (data?.messages || []).filter((m) => m.sessionId === session.id);
     return list[list.length - 1];
@@ -181,6 +199,7 @@ export default function ChatPage() {
             : prev,
         );
         setActiveSessionId(json.session.id);
+        setMobileList(false);
       }
       const remain = 2000 - (Date.now() - started);
       if (remain > 0) await sleep(remain);
@@ -255,16 +274,20 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-[#0b141a]">
-      <div className="absolute inset-x-0 top-0 h-[127px] bg-[#00a884]" />
-      <div className="relative mx-auto flex h-full max-w-[1600px] py-5">
-        <div className="mx-5 flex min-h-0 flex-1 overflow-hidden bg-white shadow-[0_1px_3px_rgba(11,20,26,0.4)]">
-          <aside className="flex w-[30%] min-w-[340px] max-w-[420px] flex-col border-r border-[#e9edef]">
-            <header className="flex h-[59px] items-center justify-between bg-[#f0f2f5] px-4">
-              <div className="flex items-center gap-3">
+    <div id="wa-shell" className="h-dvh overflow-hidden bg-[#0b141a] pt-safe">
+      <div className="absolute inset-x-0 top-0 hidden h-[127px] bg-[#00a884] md:block" />
+      <div className="relative mx-auto flex h-full max-w-[1600px] md:py-5">
+        <div className="flex min-h-0 flex-1 overflow-hidden bg-white md:mx-5 md:shadow-[0_1px_3px_rgba(11,20,26,0.4)]">
+          <aside
+            className={`${
+              mobileList ? "flex" : "hidden"
+            } w-full min-h-0 min-w-0 flex-col border-r border-[#e9edef] md:flex md:w-[30%] md:min-w-[280px] md:max-w-[420px]`}
+          >
+            <header className="flex h-[59px] items-center justify-between bg-[#f0f2f5] px-3 md:px-4">
+              <div className="flex min-w-0 items-center gap-3">
                 <Avatar name={user.name} seed={user.sub} />
-                <div>
-                  <div className="text-sm font-medium text-[#111b21]">{user.name}</div>
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-medium text-[#111b21]">{user.name}</div>
                   <div className="text-xs text-[#667781]">
                     {user.role === "admin" ? "Administrador" : "Estudiante"}
                   </div>
@@ -297,12 +320,23 @@ export default function ChatPage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Buscar chat"
-                  className="ml-3 w-full bg-transparent text-sm text-[#111b21] outline-none placeholder:text-[#667781]"
+                  className="ml-3 w-full bg-transparent text-base text-[#111b21] outline-none placeholder:text-[#667781] md:text-sm"
                 />
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto scrollbar-thin">
+            <div className="flex-1 overflow-y-auto overscroll-contain scrollbar-thin">
+              {visibleSessions.length === 0 && (
+                <div className="px-6 py-10 text-center text-sm text-[#667781]">
+                  <p>Aún no tienes chats asignados. Abre la Academia o espera a un administrador.</p>
+                  <a
+                    href="/academy"
+                    className="mt-4 inline-block cursor-pointer rounded-full bg-[#00a884] px-4 py-2 text-sm font-medium text-white"
+                  >
+                    Abrir Academia
+                  </a>
+                </div>
+              )}
               {visibleSessions.map((session) => {
                 const inf = data?.influencers.find((i) => i.id === session.influencerId);
                 const last = lastMessageOf(session);
@@ -310,7 +344,10 @@ export default function ChatPage() {
                 return (
                   <button
                     key={session.id}
-                    onClick={() => setActiveSessionId(session.id)}
+                    onClick={() => {
+                      setActiveSessionId(session.id);
+                      setMobileList(false);
+                    }}
                     className={`flex w-full cursor-pointer items-center gap-3 border-b border-[#e9edef] px-3 py-[10px] text-left ${
                       active ? "bg-[#f0f2f5]" : "bg-white hover:bg-[#f5f6f6]"
                     }`}
@@ -343,15 +380,27 @@ export default function ChatPage() {
             </div>
           </aside>
 
-          <section className="flex min-w-0 flex-1 flex-col">
+          <section
+            className={`${
+              mobileList ? "hidden" : "flex"
+            } min-h-0 min-w-0 flex-1 flex-col md:flex`}
+          >
             {activeSession && activeInfluencer ? (
               <>
-                <header className="flex h-[59px] items-center justify-between bg-[#f0f2f5] px-4">
-                  <div className="flex items-center gap-3">
+                <header className="flex h-[59px] items-center justify-between gap-2 bg-[#f0f2f5] px-2 md:px-4">
+                  <div className="flex min-w-0 items-center gap-2 md:gap-3">
+                    <button
+                      type="button"
+                      className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center rounded-full text-[#54656f] hover:bg-[#dfe5e7] md:hidden"
+                      onClick={() => setMobileList(true)}
+                      aria-label="Volver a chats"
+                    >
+                      <BackIcon />
+                    </button>
                     <Avatar name={activeInfluencer.name} seed={activeInfluencer.id} />
-                    <div>
-                      <div className="text-[16px] text-[#111b21]">{activeInfluencer.name}</div>
-                      <div className="text-[13px] text-[#667781]">
+                    <div className="min-w-0">
+                      <div className="truncate text-[16px] text-[#111b21]">{activeInfluencer.name}</div>
+                      <div className="truncate text-[12px] text-[#667781] md:text-[13px]">
                         {typing ? (
                           <span className="italic text-[#00a884]">escribiendo…</span>
                         ) : (
@@ -360,11 +409,11 @@ export default function ChatPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex shrink-0 items-center gap-1 md:gap-2">
                     {user.role === "admin" && (
                       <button
                         onClick={() => startChat(activeInfluencer.id)}
-                        className="cursor-pointer rounded-full bg-white px-3 py-1.5 text-xs font-medium text-[#008069] hover:bg-[#e9edef]"
+                        className="hidden cursor-pointer rounded-full bg-white px-3 py-1.5 text-xs font-medium text-[#008069] hover:bg-[#e9edef] md:inline"
                       >
                         Nueva ronda
                       </button>
@@ -378,30 +427,32 @@ export default function ChatPage() {
                           }
                         }}
                         disabled={!activeEvaluation}
-                        className="cursor-pointer rounded-full bg-[#008069] px-3 py-1.5 text-xs font-medium text-white hover:bg-[#017561] disabled:opacity-60"
+                        className="cursor-pointer rounded-full bg-[#008069] px-2.5 py-1.5 text-[11px] font-medium text-white hover:bg-[#017561] disabled:opacity-60 md:px-3 md:text-xs"
                       >
-                        Ver informe
+                        <span className="md:hidden">Informe</span>
+                        <span className="hidden md:inline">Ver informe</span>
                       </button>
                     ) : (
                       <button
                         onClick={runEvaluation}
                         disabled={loading}
-                        className="cursor-pointer rounded-full bg-[#008069] px-3 py-1.5 text-xs font-medium text-white hover:bg-[#017561] disabled:opacity-60"
+                        className="cursor-pointer rounded-full bg-[#008069] px-2.5 py-1.5 text-[11px] font-medium text-white hover:bg-[#017561] disabled:opacity-60 md:px-3 md:text-xs"
                       >
-                        {loading ? "Evaluando…" : "Cerrar y evaluar"}
+                        <span className="md:hidden">{loading ? "…" : "Evaluar"}</span>
+                        <span className="hidden md:inline">{loading ? "Evaluando…" : "Cerrar y evaluar"}</span>
                       </button>
                     )}
                   </div>
                 </header>
 
-                <div className="wa-wallpaper relative flex-1 overflow-y-auto px-16 py-4 scrollbar-thin">
+                <div className="wa-wallpaper relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 scrollbar-thin md:px-16 md:py-4">
                   {shownMessages.map((m) => (
                     <div
                       key={m.id}
                       className={`mb-1 flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className={`relative max-w-[65%] px-[9px] pb-[8px] pt-[6px] text-[14.2px] leading-[19px] text-[#111b21] shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] ${
+                        className={`relative max-w-[88%] px-[9px] pb-[8px] pt-[6px] text-[15px] leading-[20px] text-[#111b21] shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] md:max-w-[65%] md:text-[14.2px] md:leading-[19px] ${
                           m.role === "user" ? "wa-bubble-out" : "wa-bubble-in"
                         }`}
                       >
@@ -427,16 +478,16 @@ export default function ChatPage() {
                 </div>
 
                 <form
-                  className="relative flex items-center gap-2 bg-[#f0f2f5] px-4 py-2.5"
+                  className="relative flex items-center gap-1 bg-[#f0f2f5] px-2 py-2 pb-safe md:gap-2 md:px-4 md:py-2.5"
                   onSubmit={(e) => {
                     e.preventDefault();
                     sendMessage();
                   }}
                 >
-                  <span className="text-[#54656f]">
+                  <span className="hidden text-[#54656f] sm:inline">
                     <SmileIcon />
                   </span>
-                  <span className="text-[#54656f]">
+                  <span className="hidden text-[#54656f] sm:inline">
                     <ClipIcon />
                   </span>
                   <div className="relative min-w-0 flex-1">
@@ -473,8 +524,8 @@ export default function ChatPage() {
                           setMessage(message.slice(0, slash.start));
                         }
                       }}
-                      placeholder="Escribe un mensaje o / para atajos"
-                      className="h-[42px] w-full rounded-lg bg-white px-4 text-[15px] text-[#111b21] outline-none placeholder:text-[#667781]"
+                      placeholder="Mensaje o / atajo"
+                      className="h-[42px] w-full rounded-lg bg-white px-3 text-base text-[#111b21] outline-none placeholder:text-[#667781] md:px-4 md:text-[15px]"
                     />
                   </div>
                   <button
@@ -593,19 +644,23 @@ function Modal({
   wide?: boolean;
 }) {
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-50 grid place-items-stretch bg-black/40 p-0 md:place-items-center md:p-4">
       <div
-        className={`w-full rounded-lg bg-white p-5 text-[#111b21] shadow-xl ${
-          wide ? "max-h-[88vh] max-w-2xl overflow-y-auto" : "max-w-md"
-        }`}
+        className={`flex w-full flex-col overflow-hidden bg-white text-[#111b21] shadow-xl md:rounded-lg ${
+          wide
+            ? "h-full max-h-none md:h-auto md:max-h-[88vh] md:max-w-2xl"
+            : "h-full max-h-none p-5 md:h-auto md:max-w-md"
+        } ${wide ? "p-4 md:p-5" : ""}`}
       >
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-lg">{title}</h3>
+        <div className="mb-3 flex shrink-0 items-center justify-between pt-safe">
+          <h3 className="pr-3 text-lg">{title}</h3>
           <button onClick={onClose} className="cursor-pointer text-[#667781]">
             ✕
           </button>
         </div>
-        {children}
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-safe">
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -619,13 +674,13 @@ function EmptyState({
   canCreate: boolean;
 }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-[#f0f2f5] text-center">
+    <div className="flex flex-1 flex-col items-center justify-center bg-[#f0f2f5] px-6 text-center">
       <div className="mb-4 text-[#00a884]">
         <svg viewBox="0 0 24 24" className="mx-auto h-16 w-16" fill="currentColor">
           <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2z" />
         </svg>
       </div>
-      <h2 className="text-3xl font-light text-[#41525d]">Orient WhatsApp</h2>
+      <h2 className="text-2xl font-light text-[#41525d] md:text-3xl">Orient WhatsApp</h2>
       <p className="mt-2 max-w-sm text-sm text-[#667781]">
         {canCreate
           ? "Selecciona un chat o empieza una nueva negociación con un influencer."
@@ -651,6 +706,13 @@ function EmptyState({
   );
 }
 
+function BackIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden>
+      <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+    </svg>
+  );
+}
 function CapIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

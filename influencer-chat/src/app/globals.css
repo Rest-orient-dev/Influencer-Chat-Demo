@@ -24,11 +24,14 @@
 
 html {
   color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
+  min-height: 100dvh;
 }
 
 body {
@@ -37,11 +40,25 @@ body {
   font-family: var(--font-geist-sans), "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
+.pb-safe {
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
 input,
 textarea,
 select {
   color: inherit;
   font: inherit;
+  font-size: 16px;
+}
+
+button,
+a {
+  touch-action: manipulation;
 }
 
 button {

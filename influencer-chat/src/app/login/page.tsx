@@ -42,8 +42,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#111b21] text-[#e9edef]">
-      <header className="bg-[#00a884] px-6 py-5">
+    <div className="min-h-dvh bg-[#111b21] text-[#e9edef]">
+      <header className="bg-[#00a884] px-4 py-4 pt-safe md:px-6 md:py-5">
         <div className="mx-auto flex max-w-[920px] items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#00a884]">
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
@@ -61,7 +61,12 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-[920px] gap-10 px-6 py-12 md:grid-cols-[1.05fr_0.95fr] md:items-start">
+      <div className="mx-auto grid max-w-[920px] gap-6 px-4 py-8 md:grid-cols-[1.05fr_0.95fr] md:items-start md:gap-10 md:px-6 md:py-12">
+        <div className="md:hidden">
+          <h1 className="text-2xl font-light leading-snug text-white">
+            Practica negociaciones en WhatsApp
+          </h1>
+        </div>
         <div className="hidden md:block">
           <h1 className="text-4xl font-light leading-snug text-white">
             Practique negociaciones con influencers
@@ -79,7 +84,7 @@ export default function LoginPage() {
         <form
           onSubmit={onSubmit}
           autoComplete="off"
-          className="rounded-sm bg-white p-8 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)]"
+          className="rounded-sm bg-white p-5 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8"
         >
           <h2 className="text-2xl font-normal text-[#111b21]">Iniciar sesión</h2>
           <p className="mt-1 text-sm text-[#667781]">
@@ -96,7 +101,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="off"
-            className="mt-1 w-full rounded-md border border-[#d1d7db] bg-white px-3 py-3 text-[#111b21] outline-none ring-[#00a884] focus:border-[#00a884] focus:ring-1"
+            className="mt-1 w-full rounded-md border border-[#d1d7db] bg-white px-3 py-3 text-base text-[#111b21] outline-none ring-[#00a884] focus:border-[#00a884] focus:ring-1"
           />
 
           <label className="mt-4 block text-sm font-medium text-[#111b21]" htmlFor="password">
@@ -109,7 +114,7 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             autoComplete="off"
-            className="mt-1 w-full rounded-md border border-[#d1d7db] bg-white px-3 py-3 text-[#111b21] outline-none ring-[#00a884] focus:border-[#00a884] focus:ring-1"
+            className="mt-1 w-full rounded-md border border-[#d1d7db] bg-white px-3 py-3 text-base text-[#111b21] outline-none ring-[#00a884] focus:border-[#00a884] focus:ring-1"
           />
 
           {error && (

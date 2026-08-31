@@ -88,24 +88,24 @@ export default function AdminUsersPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nombre"
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 md:text-sm"
         />
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Correo electrónico"
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 md:text-sm"
         />
         <input
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Contraseña"
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 md:text-sm"
         />
         <select
           value={role}
           onChange={(e) => setRole(e.target.value as "agent" | "admin")}
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 md:text-sm"
         >
           <option value="agent">Estudiante</option>
           <option value="admin">Administrador</option>
@@ -120,8 +120,8 @@ export default function AdminUsersPage() {
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       {message && <p className="mt-2 text-sm text-emerald-700">{message}</p>}
 
-      <div className="mt-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-        <table className="w-full text-left text-sm">
+      <div className="mt-6 overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+        <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="bg-slate-50 text-slate-600">
             <tr>
               <th className="px-4 py-3 font-medium">Nombre</th>

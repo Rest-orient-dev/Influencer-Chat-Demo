@@ -11,11 +11,11 @@ export default function AcademyHomePage() {
   const nextOpen = units.find((u) => !isUnitComplete(u, progress.completedActivityIds)) ?? units[0];
 
   return (
-    <div className="rounded-2xl bg-white p-6 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8">
+    <div className="rounded-2xl bg-white p-4 text-[#111b21] shadow-[0_2px_10px_rgba(11,20,26,0.26)] md:p-8">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#008069]">
         Formación interna
       </p>
-      <h1 className="mt-2 text-3xl font-light leading-snug text-[#111b21]">
+      <h1 className="mt-2 text-2xl font-light leading-snug text-[#111b21] md:text-3xl">
         Aprende a negociar con influencers
         <br />
         al ritmo real de WhatsApp

@@ -2,12 +2,12 @@ import { ChatBubble } from "@/academy/types";
 
 export function BubbleThread({ bubbles }: { bubbles: ChatBubble[] }) {
   return (
-    <div className="wa-wallpaper rounded-xl px-4 py-4">
+    <div className="wa-wallpaper rounded-xl px-3 py-3 md:px-4 md:py-4">
       {bubbles.map((b, i) => (
         <div key={`${b.text}-${i}`} className="mb-3">
           <div className={`flex ${b.role === "orient" ? "justify-end" : "justify-start"}`}>
             <div
-              className={`max-w-[85%] px-[9px] pb-[8px] pt-[6px] text-[14px] leading-[19px] text-[#111b21] shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] ${
+              className={`max-w-[92%] px-[9px] pb-[8px] pt-[6px] text-[15px] leading-[20px] text-[#111b21] shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] md:max-w-[85%] md:text-[14px] md:leading-[19px] ${
                 b.role === "orient" ? "wa-bubble-out" : "wa-bubble-in"
               }`}
             >

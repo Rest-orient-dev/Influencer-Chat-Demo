@@ -15,14 +15,14 @@ export function SlashPicker({
 }) {
   if (items.length === 0) {
     return (
-      <div className="absolute bottom-[calc(100%+8px)] left-0 right-0 rounded-lg bg-white p-3 text-sm text-[#667781] shadow-[0_4px_16px_rgba(11,20,26,0.18)]">
+      <div className="absolute bottom-[calc(100%+8px)] left-0 right-0 z-20 rounded-lg bg-white p-3 text-sm text-[#667781] shadow-[0_4px_16px_rgba(11,20,26,0.18)]">
         No hay atajos con ese nombre. Prueba /proceso /hola /tarifa
       </div>
     );
   }
 
   return (
-    <div className="absolute bottom-[calc(100%+8px)] left-0 right-0 max-h-[280px] overflow-y-auto rounded-lg bg-white py-1 shadow-[0_4px_16px_rgba(11,20,26,0.18)]">
+    <div className="absolute bottom-[calc(100%+8px)] left-0 right-0 z-20 max-h-[min(45dvh,280px)] overflow-y-auto rounded-lg bg-white py-1 shadow-[0_4px_16px_rgba(11,20,26,0.18)]">
       <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#667781]">
         Atajos · escribe / como en WhatsApp
       </div>

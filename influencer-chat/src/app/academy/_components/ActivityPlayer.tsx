@@ -233,7 +233,7 @@ function GuidedPlayer({
         Paso {stepIndex + 1} de {activity.steps.length}
       </p>
 
-      <div className="mt-5 rounded-xl border border-[#e9edef] bg-white p-5">
+      <div className="mt-5 rounded-xl border border-[#e9edef] bg-white p-3 md:p-5">
         <p className="text-sm font-medium text-[#111b21]">{step.situation}</p>
         {step.incoming && (
           <div className="mt-4">
@@ -249,7 +249,7 @@ function GuidedPlayer({
           }}
           rows={3}
           placeholder="Escribe aquí tu burbuja…"
-          className="mt-3 w-full rounded-md border border-[#d1d7db] px-3 py-3 text-[15px] text-[#111b21] outline-none focus:border-[#00a884]"
+          className="mt-3 w-full rounded-md border border-[#d1d7db] px-3 py-3 text-base text-[#111b21] outline-none focus:border-[#00a884]"
         />
         {feedback === "bad" && (
           <div className="mt-3 rounded-md bg-[#fef2f2] px-3 py-2 text-sm text-[#b42318]">
@@ -371,7 +371,7 @@ function DrillPlayer({
         </span>
       </div>
 
-      <div className="mt-5 rounded-xl border border-[#e9edef] bg-white p-5">
+      <div className="mt-5 rounded-xl border border-[#e9edef] bg-white p-3 md:p-5">
         <ItemPrompt item={item} locked={locked} onAnswer={mark} />
         {wasRight !== null && (
           <div
