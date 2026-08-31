@@ -13,14 +13,14 @@ Hostinger 从 GitHub 拉代码。本机提交之后：
 
 ```bash
 git remote add origin https://github.com/你的用户名/仓库名.git
-git push -u origin main
+git push -u origin master
 ```
 
 ## 2. 在 Hostinger 创建 Web App
 
 1. hPanel → **Websites** → **+ Add website**
 2. 选 **Deploy Web App**
-3. 连接 GitHub，选这个仓库和分支 `main`
+3. 连接 GitHub，选这个仓库和分支 `master`
 4. 配置：
 
 | 项 | 值 |
